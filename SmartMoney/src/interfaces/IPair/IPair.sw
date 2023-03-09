@@ -1,6 +1,0 @@
-contract;
-
-abi IPairAbi {
-
-}
-

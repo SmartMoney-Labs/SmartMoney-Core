@@ -83,9 +83,32 @@ abi IPair {
 
     /// UPDATE FUNCTIONS ///
 
+    // Add liquidity into a Pool by a liquidity provider.
     #[storage(read, write)]
-    fn mint() -> (bool, u64);
+    fn mint() -> (b256, due_out);
 
+    // Remove liquidity from a Pool by a liquidity provider.
+    #[storage(read, write)]
+    fn burn() -> (u64, b256);
+
+    // Lend asset ERC20 into the Pool.
+    #[storage(read, write)]
+    fn lend() -> (b256, claims_out);
+
+    // Withdraw asset ERC20 and/or collateral ERC20 for lenders.
+    #[storage(read, write)]
+    fn withdraw() -> tokens_out;
+
+    // Borrow asset ERC20 from the Pool.
+    #[storage(read, write)]
+    fn borrow() -> (asset_out, id, due_out);
+
+    // Pay asset ERC20 into the Pool to repay debt for borrowers.
+    #[storage(read, write)]
+    fn pay() -> u64;
+
+    #[storage(read, write)]
+    fn collateral_protocol_fee(too: Address) ->  b256;
 }
 
 pub struct Tokens { 

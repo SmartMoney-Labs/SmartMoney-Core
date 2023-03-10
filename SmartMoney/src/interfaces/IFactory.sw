@@ -1,18 +1,20 @@
 library ifactory_abi;
 
+use ipair_abi::*;
 use core::ops::Eq;
 
 use std::{
-    std::address::Address,
-    std::contract_id::ContractId,
-    std::identity::Identity,
-    std::vec::Vec,
-    std::storage::StorageMap,
-    std::option::Option,
-    std::result::Result,
-    std::assert::assert,
-    std::revert::require,
-    std::revert::revert,
+    address::Address,
+    contract_id::ContractId,
+    identity::Identity,
+    vec::Vec,
+    storage::StorageMap,
+    option::Option,
+    result::Result,
+    assert::assert,
+    revert::require,
+    revert::revert,
+    token::*,
 };
 
 abi IPair {
@@ -28,10 +30,24 @@ abi IPair {
     #[storage(read)]
     fn protocol_fee() -> b256;
 
-    // #[storage(read, write)]
-    // fn set_pair(asset)
+    #[storage(read, write)]
+    fn get_pair(asset: ContractId, collateral: ContractId) -> Ipair;
 }
 
+
+pub struct CreatePair {
+    asset: ContractId,
+    collateral: ContractId,
+    ipair: Ipair,
+}
+
+pub struct SetOwner {
+    pending_owner: Address,
+}  
+
+pub struct AcceptOwner {
+    owner: Address,
+}
 
 // function status
 pub enum State {

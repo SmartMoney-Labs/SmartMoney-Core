@@ -7,10 +7,8 @@ enum sucsf_num {
 enum numError {
     invalidNumber: (u8, u16, u32, u64, u128) 
 }
-
-
 // convert from b256 to u128
-fn verify_number(number: b256) -> Result<num, numError> {
+fn verify_number(number: U256) -> Result<num, numError> {
     match review {
         1 => Ok(sucsf_num<=u128::MAX.into()),
         _ => Err(numError::invalidNumber),

@@ -35,65 +35,65 @@ abi IPair {
 
     // return the fee per second earned by liquidity providers
     #[storage(read, write)]
-    fn fee(providers_fee: b256) -> b256;
+    fn fee(providers_fee: U256) -> U256;
 
     // return the protocol fee per second earned by the owner
     #[storage(read, write)]
-    fn protocol_fee(owner_fee: b256) -> b256;
+    fn protocol_fee(owner_fee: U256) -> U256;
 
     // return The protocol fee in asset ERC20 stored.
     #[storage(read, write)]
-    fn protocol_fee_stored(protocol_fee: b256) -> b256;
+    fn protocol_fee_stored(protocol_fee: U256) -> U256;
 
     // return the constant product state of a pool
     #[storage(read, write)]
-    fn constant_product(maturity: b256);
+    fn constant_product(maturity: U256);
 
     // returns the asset ERC20 and collateral ERC20 balances of a Pool
     #[storage(read, write)]
-    fn total_reserves(maturity: b256);
+    fn total_reserves(maturity: U256);
 
     // returns the total liquidity supply of a Pool
     #[storage(read, write)]
-    fn total_liquidity(maturity: b256, owner: Address);
+    fn total_liquidity(maturity: U256, owner: Address);
 
     // returns the liquidity balance of a user in a pool
     #[storage(read, write)]
-    fn liquidity_of(maturity: b256, owner: Address);
+    fn liquidity_of(maturity: U256, owner: Address);
 
     // returns the total claims of a pool
     #[storage(read, write)]
-    fn total_claims(maturity: b256);
+    fn total_claims(maturity: U256);
 
     // returns the claims of a user in a Pool
     #[storage(read, write)]
-    fn claims_of(maturity: b256, owner: Address);
+    fn claims_of(maturity: U256, owner: Address);
 
     // return the total debt created
     #[storage(read, write)]
-    fn total_debt_created(maturity: b256);
+    fn total_debt_created(maturity: U256);
 
     // returns the number of dues owned by owner
     #[storage(read, write)]
-    fn total_dues_of(maturity: b256, owner: Address);
+    fn total_dues_of(maturity: U256, owner: Address);
 
     // returns a collateralized debt of a user in a pool
     #[storage(read, write)]
-    fn due_of(maturity: b256, owner: Address, id: b256);
+    fn due_of(maturity: U256, owner: Address, id: U256);
 
     /// UPDATE FUNCTIONS ///
 
     // Add liquidity into a Pool by a liquidity provider.
     #[storage(read, write)]
-    fn mint() -> (b256, due_out);
+    fn mint() -> (U256, due_out);
 
     // Remove liquidity from a Pool by a liquidity provider.
     #[storage(read, write)]
-    fn burn() -> (u64, b256);
+    fn burn() -> (u64, U256);
 
     // Lend asset ERC20 into the Pool.
     #[storage(read, write)]
-    fn lend() -> (b256, claims_out);
+    fn lend() -> (U256, claims_out);
 
     // Withdraw asset ERC20 and/or collateral ERC20 for lenders.
     #[storage(read, write)]
@@ -108,12 +108,12 @@ abi IPair {
     fn pay() -> u64;
 
     #[storage(read, write)]
-    fn collateral_protocol_fee(too: Address) ->  b256;
+    fn collateral_protocol_fee(too: Address) ->  U256;
 }
 
 pub struct Tokens { 
-    asset: u64,
-    collateral: u64,
+    asset: U128,
+    collateral: U128,
 }
 
 pub struct Claims {
@@ -131,8 +131,8 @@ pub struct Due {
 
 pub struct State {
     Tokens: reserves,
-    feeStored: b256,
-    totalLiquidity: b256,
+    feeStored: U256,
+    totalLiquidity: U256,
     Claims: totalClaims,
     totalDebtCreated: u64,
     x: u64,
@@ -145,7 +145,7 @@ pub struct Pool {
 }
 
 pub struct MintParam {
-    maturity: b256,
+    maturity: U256,
     liquidity_to: Address,
     due_to: Address,
     x_increase: u64,
@@ -155,14 +155,14 @@ pub struct MintParam {
 }
 
 pub struct BurnParam {
-    maturity: b256,
+    maturity: U256,
     asset_to: Address,
     collateral_to: Address,
     claims_in: Claims,
 }
 
 pub struct BorrowParam {
-    maturity: b256,
+    maturity: U256,
     asset_to: Address,
     due_to: Address,
     x_decrease: u64,
@@ -172,10 +172,10 @@ pub struct BorrowParam {
 }
 
 pub struct PayParam {
-    maturity: b256,
+    maturity: U256,
     to: Address,
     owner: Address,
-    ids: b256,
+    ids: U256,
     assets_in: u64,
     collaterals_out: u64,
     // data: bytes
@@ -187,48 +187,48 @@ pub struct PayParam {
 // Emits when the state gets updated.
 
 struct Sync {
-    maturity: b256,
+    maturity: U256,
     x: u64,
     y: u64,
     z: u64,
 }
 
 struct Mint {
-    maturity: b256,
+    maturity: U256,
     sender: Address,
     liquidity_to: Address,
     due_to: Address,
-    asset_in: b256,
-    liquidity_out: b256,
-    id: b256,
+    asset_in: U256,
+    liquidity_out: U256,
+    id: U256,
     due_out: Due,
-    fee_in: b256,
+    fee_in: U256,
 }
 
 struct Burn {
-    maturity: b256,
+    maturity: U256,
     sender: Address, 
     asset_to: Address, 
     collateral_to: Address,
-    liquidity_in: b256,
-    asset_out: b256,
-    collateral_out: u64,
-    fee_out: b256,
+    liquidity_in: U256,
+    asset_out: U256,
+    collateral_out: U128,
+    fee_out: U256,
 }
 
 struct Lend {
-    maturity: b256,
+    maturity: U256,
     sender: Address,
     bond_to: Address,
     insurance_to: Address,
-    asset_in: b256,
+    asset_in: U256,
     claims_out: Claims,
-    fee_in: b256,
-    protocol_fee_in: b256,
+    fee_in: U256,
+    protocol_fee_in: U256,
 }
 
 struct Withdraw {
-    maturity: b256,
+    maturity: U256,
     sender: Address,
     asset_to: Address,
     collateral_to: Address,
@@ -237,23 +237,23 @@ struct Withdraw {
 }
 
 struct Borrow {
-    maturity: b256,
+    maturity: U256,
     sender: Address,
     asset_to: Address,
     due_to: Address,
-    asset_out: b256,
-    id: b256,
+    asset_out: U256,
+    id: U256,
     due_out: Due,
-    fee_in: b256,
-    protocol_fee_in: b256,
+    fee_in: U256,
+    protocol_fee_in: U256,
 }
 
 struct Pay {
-    maturity: b256,
+    maturity: U256,
     sender: Address,
     to: Address,
     owner: Address,
-    ids: b256,
+    ids: U256,
     assets_in: u64,
     collaterals_outs: u64,
     asset_in: u64,
@@ -263,7 +263,7 @@ struct Pay {
 struct CollectProtocolFee {
     sender: Address,
     to: Address,
-    protocol_fee_out: b256,
+    protocol_fee_out: U256,
 }
 
 // function status
